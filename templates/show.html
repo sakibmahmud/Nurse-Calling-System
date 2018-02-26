@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table border="1" width="100%">
+<tr>
+    <th>Bed</th>
+    <th>Device</th>
+    </tr>
+{% for item in items %}
+
+    <tr>
+        <td>{{ item[1] }}</td>
+        <td> {{ item[2] }}</td>
+    </tr>
+
+{% endfor %}
+</table>
+</body>
+</html>
+%}

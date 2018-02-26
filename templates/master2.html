@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+    Document Title
+    =============================================
+    -->
+    <title>Nurse Calling System</title>
+
+    <!-- Default stylesheets-->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Template specific stylesheets-->
+    <link href="/static/css/owl.carousel.css" rel="stylesheet">
+    <!-- Main stylesheet and color file-->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet"><!--
+    <link id="color-scheme" href="css/default.css" rel="stylesheet"> -->
+  </head>
+  <body background="/static/image/back.jpg">
+
+    <main>
+      <section class="main">
+        <div class="content">
+          <div class="container">
+            <div class="content2">
+             <div class="tophead">
+                 <div class="col-sm-8 text-left">
+              <span><img src="/static/image/logo.png" alt="" class="logo"></span> <span class="headtitle">WELCOME TO NURSE CALLING SYSTEM</span>
+                 </div>
+                 <div class="col-sm-4 text-right">
+                      <a href="/logout"><button type="button" class="btn btn-success loginBtn">Logout</button></a>
+                 </div>
+             </div>
+
+                 <div class="clearfix"></div>
+
+            </div>
+
+          </div> <!-- container -->
+           <div id="content">{% block content %}{% endblock %}</div>
+        </div>
+      </section>
+    </main>
+
+    <!--
+    JavaScripts
+    =============================================
+    -->
+
+  </body>
+
+</html>

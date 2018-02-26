@@ -1,0 +1,107 @@
+
+.base{
+	position:absolute;
+	width:100%;
+	top:0px;
+	left:0px;
+	color:black;
+
+}
+
+#form1{
+	margin-top:200px;
+	width:355px;
+	height:350px;
+    padding-top:40px;
+	background:#f7f7f7;
+	box-shadow: 0px 1px 1px 1px #c6c1c1;
+
+}
+#form-img{
+
+	width:99px;
+	height:99px;
+}
+#mailbox{
+	width:270px;
+	height:42px;
+	border-radius:5px 5px 5px 5px;
+	background:white;
+
+	font-size:18px;
+	margin-top:20px;
+	border-width: 0px;
+	border-style:solid;
+	border-color: blue;
+}
+#button2{
+	width:270px;
+	height:35px;
+
+	margin-top:10px;
+	background:#498af2;
+	font-family:verdana;
+	font-size:14px;
+	color:white;
+	border-radius:5px 5px 5px 5px;
+	border-width: 1px;
+	border-style:solid;
+	border-color: gray;
+	cursor:pointer;
+	outline:none;
+
+}
+
+#logo2{
+
+	margin-top:10px;
+	height:27px;
+	width:243px;
+}
+
+#form2{
+	margin-top:30px;
+    margin-left:15%;
+	width:355px;
+	height:350px;
+    padding-top:40px;
+	background:#f7f7f7;
+	box-shadow: 0px 1px 1px 1px #c6c1c1;
+
+}
+
+#mailbox1{
+	width:270px;
+	height:42px;
+	border-radius:5px 5px 5px 5px;
+	background:white;
+
+	font-size:18px;
+	margin-top:20px;
+	margin-left:30px;
+	border-width: 0px;
+	border-style:solid;
+	border-color: blue;
+}
+
+#button2{
+	width:270px;
+	height:35px;
+	margin-top:10px;
+	margin-left: 30px;
+	background:#498af2;
+	font-family:verdana;
+	font-size:14px;
+	color:white;
+	border-radius:5px 5px 5px 5px;
+	border-width: 1px;
+	border-style:solid;
+	border-color: gray;
+	cursor:pointer;
+	outline:none;
+
+}
+
+
+
+

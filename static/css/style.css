@@ -1,0 +1,109 @@
+/* @import url("https://fonts.googleapis.com/css?family=Muli" rel="stylesheet"); */
+body {
+  color: #232323;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 14pt;
+  background-repeat: repeat;
+}
+
+a:hover {
+  color: #00c8aa;
+  text-decoration: none;
+  outline: none;
+}
+
+a {
+  transition: all 0.2s cubic-bezier(0.42, 0, 0.58, 1);
+  cursor: pointer;
+  color: #FFF;
+}
+
+p {
+  font-size: 18px;
+}
+
+section ul li {
+  display: inline-block;
+  width: 13rem;
+}
+
+.main {
+  background-size: cover;
+  display: table;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  overflow-x: hidden;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+h1 {
+  color: #fff;
+  font-weight: 100;
+  font-size: 67px;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #1d2437;
+  opacity: .4;
+}
+
+.content-wrapper {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+
+/* my css */
+
+span.headtitle {
+    color: #ffffff;
+    /* background: white; */
+    padding: 5px;
+    font-weight: bold;
+}
+.tophead {  
+    margin: 5px;
+    background: transparent;
+    overflow: auto;
+    border-bottom: 1px solid #c3c3c3;
+    padding: 10px;
+}
+.tablecontent {
+    background: rgba(255, 255, 255, 0.86);
+  margin-top: 40px;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: transparent;
+    border-color: #e9eae9;
+    margin: 0px 10px 10px 10px;
+    width: 20%;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: rgba(140, 198, 65, 0.69);
+    border-color: rgba(140, 198, 65, 0.69);
+    transition: 1s;
+}
+
+tr.tablehead th {
+    text-align: center;
+}
+tr.tablehead {
+    background: #3baf45;
+    color: white;
+}
+
+tr.tablehead:hover {
+    background-color: #3baf45 !important;
+    background: #3baf45;
+    color: white;
+}

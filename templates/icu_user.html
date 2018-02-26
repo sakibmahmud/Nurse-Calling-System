@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+    Document Title
+    =============================================
+    -->
+    <title>Nurse Calling System</title>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script type="text/javascript" charset="utf-8">
+          function formatItem(item) {
+		  if(item.message=="Calling"){
+		  return $('<td >' + item.device + '</td> <td> ' + item.message + ' </td><td>' + item.room + '</td><td>' +item.bed + '</td>').addClass('bad');
+		  }
+		  else if(item.message=="Emergency"){
+		  return $('<td >' + item.device + '</td> <td> ' + item.message + ' </td><td>' + item.room + '</td><td>' +item.bed + '</td>').addClass('selected');
+		  }
+		  else if(item.message=="Bluecode"){
+		  return $('<td >' + item.device + '</td> <td> ' + item.message + ' </td><td>' + item.room + '</td><td>' +item.bed + '</td>').addClass('bluecode');
+		  }
+                
+          }
+		  function checktable(item){
+     var table = $("table tbody");
+
+    table.find('tr').each(function (i) {
+        var $tds = $(this).find('td'),
+            device = $tds.eq(0).text(),
+            message = $tds.eq(1).text(),
+            room = $tds.eq(2).text();
+        // do something with productId, product, Quantity
+        /*alert('Row ' + (i + 1) + ':\nMessage: ' + message
+              + '\nRoom: ' + room
+              + '\nBed: ' + bed);*/
+        var $position=i;
+        var $x=item.device;
+
+        if(device==$x){
+            //var new_tr=$(this).find('tr');
+            //$(this).parent(i+1).replaceWith(new_tr);
+            //return $position;
+            alert($position);
+            var rows = $('tr', tbdata);
+            var t=rows.eq($position);
+            t.replaceWith(item);
+
+
+        }
+
+
+    });
+
+
+
+
+}
+
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('connect', function() {
+                 console.log('connected');
+            });
+            socket.on('message', function(data) {
+                 $.each(data, function (key, item) {
+				 
+				 var $t=checktable(item);
+                     $('<tr>', { html: formatItem(item) }).appendTo($("#tbdata"));
+                          });
+            });
+      </script>
+    <link href="/static/style1.css" rel="stylesheet" />
+    <!-- Default stylesheets-->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Template specific stylesheets-->
+    <link href="/static/css/owl.carousel.css" rel="stylesheet">
+    <!-- Main stylesheet and color file-->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet"><!--
+    <link id="color-scheme" href="css/default.css" rel="stylesheet"> -->
+  </head>
+  <body background="/static/image/back.jpg">
+
+    <main>
+      <div class="content-wrapper">
+
+      </div>
+      <section class="main">
+        <div class="content">
+          <div class="container">
+            <div class="content2">
+             <div class="tophead">
+                 <div class="col-sm-8 text-left">
+              <span><img src="/static/image/logo.png" alt="" class="logo"></span> <span class="headtitle">WELCOME TO NURSE CALLING SYSTEM</span>
+                 </div>
+                 <div class="col-sm-4 text-right">
+                      <a href="/logout"><button type="button" class="btn btn-success loginBtn">Logout</button></a>
+                 </div>
+             </div>
+
+                 <div class="clearfix"></div>
+              <div class="tablecontent">
+                <table class="table table-hover table-bordered " id="tbdata">
+				<tbody>
+                   <tr class="tablehead">
+                     <th>Device</th>
+                     <th>Message</th>
+					 <th>Room</th>
+					   <th>Bed</th>
+					   
+                   </tr>
+				   </tbody>
+                </table>
+              </div><!-- tablecontent -->
+            </div>
+
+          </div> <!-- container -->
+        </div>
+      </section>
+    </main>
+    <!--
+    JavaScripts
+    =============================================
+    -->
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/owl.carousel.js"></script>
+    <script src="/static/js/jquery.ajaxchimp.js"></script>
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>

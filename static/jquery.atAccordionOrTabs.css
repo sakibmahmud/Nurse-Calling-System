@@ -1,0 +1,114 @@
+@charset "UTF-8";
+/* CSS Document */
+/* jQuery at Responsive Accordion or Tabs - v1.0.4 - 2016-02-24
+* https://github.com/stazna01/jQuery-rt-Responsive-Tables
+*
+* This plugin is built heavily upon the work by Chris Coyier
+* found at http://css-tricks.com/responsive-data-tables/
+*
+* Copyright (c) 2016 Nathan Stazewski; Licensed MIT */
+
+.aria-only {
+	position: absolute;
+	left: -10000px;
+	overflow:hidden;
+	}
+.at-accordion-or-tabs {
+	position: relative; 
+	margin: 24px auto;
+	border: none;
+	width: 100%;
+	padding: 0;
+	clear: both;
+	/*visibility: hidden; */
+}
+
+.at-accordion-or-tabs > li {
+	list-style: none;
+	padding: 0 !important;
+	margin-bottom: 3px;
+	border: 1px solid #999;
+}
+
+.at-accordion-or-tabs > li > a {
+	display: block;
+	background: #ccc;
+	text-decoration: none;
+	color: #000;
+	padding: 5px 7px;
+	border: none;
+}
+
+.at-accordion-or-tabs > li > a:hover, .at-accordion-or-tabs > li > a.active {
+	background: #B3B3B3;
+	color: #F2F2F2;
+}
+
+.at-accordion-or-tabs > li > section {
+	display: none;
+	background: #ffffff;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 7px;
+	border-bottom: none;
+}
+
+.no-js .at-accordion-or-tabs > li > section {
+  display: block;
+}
+
+.at-accordion-or-tabs .at-tab-one-pixel-fix-left, .at-accordion-or-tabs .at-tab-one-pixel-fix-right {
+	display: none;
+	height:1px;
+	width:1px;
+	background-color:#000000;
+	position:absolute;
+	left: -1px;
+	bottom: -1px;
+	}
+	
+.at-accordion-or-tabs .at-tab-one-pixel-fix-right {
+	left:auto;
+	right: -1px;
+	}
+
+.at-accordion-or-tabs.at-tabs {
+	border: none;
+	}
+	
+.at-accordion-or-tabs.at-tabs > li {
+	display: inline;
+	border: none;
+	}
+	
+.at-accordion-or-tabs.at-tabs > li > a {
+	display: inline-block;
+	border: 1px #000000 solid;
+	z-index:98;
+	position: relative;
+	border-bottom-color: #ffffff;
+	border-radius: 0px;
+	box-sizing: border-box;
+	}
+	
+.at-accordion-or-tabs.at-tabs > li > a.active {
+	z-index:100;
+	background-color: #ffffff;
+	color: #000000;
+	}
+.at-accordion-or-tabs.at-tabs .at-tab-one-pixel-fix-left, .at-accordion-or-tabs.at-tabs .at-tab-one-pixel-fix-right {
+	display:inline-block;
+	}
+	
+.at-accordion-or-tabs.at-tabs > li > section {
+	float: left;
+	top: -1px;
+	left: 0;
+	margin-bottom: 24px;
+	border: 1px #000000 solid;
+	z-index: 99;
+	border-radius: 0px;
+	box-sizing: border-box;
+	}

@@ -1,0 +1,279 @@
+{% extends 'master2.html' %}
+{% block content %}
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="/static/user_form.css" rel="stylesheet">
+	<!-------user_form style files------->
+       <link type="text/css" rel="stylesheet" href="/static/css/gmail.css" />
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+		<meta name="Description" content="Gmail Style Login page Design using HTML and CSS - coder Glass"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Database record-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Admin Panel</title>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link href="/static/jquery.atAccordionOrTabs.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script type="text/javascript" charset="utf-8">
+          function formatItem(item) {
+		  if(item.message=="Calling"){
+		  return $('<td >' + item.device + '</td> <td> ' + item.message + ' </td><td>' + item.room + '</td><td>' +item.bed + '</td>').addClass('bad');
+		  }
+		  else if(item.message=="Emergency"){
+		  return $('<td >' + item.device + '</td> <td> ' + item.message + ' </td><td>' + item.room + '</td><td>' +item.bed + '</td>').addClass('selected');
+		  }
+		  else if(item.message=="Bluecode"){
+		  return $('<td >' + item.device + '</td> <td> ' + item.message + ' </td><td>' + item.room + '</td><td>' +item.bed + '</td>').addClass('bluecode');
+		  }
+                
+          }
+		  function checktable(item){
+     var table = $("table tbody");
+
+    table.find('tr').each(function (i) {
+        var $tds = $(this).find('td'),
+            device = $tds.eq(0).text(),
+            message = $tds.eq(1).text(),
+            room = $tds.eq(2).text();
+        // do something with productId, product, Quantity
+        /*alert('Row ' + (i + 1) + ':\nMessage: ' + message
+              + '\nRoom: ' + room
+              + '\nBed: ' + bed);*/
+        var $position=i;
+        var $x=item.device;
+
+        if(device==$x){
+            //var new_tr=$(this).find('tr');
+            //$(this).parent(i+1).replaceWith(new_tr);
+            //return $position;
+            alert($position);
+            var rows = $('tr', tbdata);
+            var t=rows.eq($position);
+            t.replaceWith(item);
+
+
+        }
+
+
+    });
+
+
+
+
+}
+
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            socket.on('connect', function() {
+                 console.log('connected');
+            });
+            socket.on('admin', function(data) {
+                 $.each(data, function (key, item) {
+				 
+				 var $t=checktable(item);
+                     $('<tr>', { html: formatItem(item) }).appendTo($("#tbdata"));
+                          });
+            });
+      </script>
+    <link href="/static/style1.css" rel="stylesheet" />
+	
+    <!-- Default stylesheets-->
+	
+</head>
+
+<body>
+
+<h2 style="margin:50px auto 30px auto; text-align:center; color:White;" >Admin Dashboard</h2>
+<ul class="demo">
+  <li><a>Realtime Data</a>
+    <section>
+        <div class="tablecontent">
+                <table class="table table-hover table-bordered " id="tbdata">
+				<tbody>
+                   <tr class="tablehead">
+                     <th>Device</th>
+                     <th>Message</th>
+					 <th>Room</th>
+					   <th>Bed</th>
+					   
+                   </tr>
+				   </tbody>
+                </table>
+              </div>
+    </section>
+  </li>
+  <li><a>Database Record</a>
+    <section>
+	<div class="tablecontent">
+     <table class="table table-hover table-bordered">
+     <tr class="tablehead"><th>ID</th>
+     <th>Device</th>
+     <th>Message</th>
+     <th>Date</th>
+     <th>Time</th>
+     <th>Bed</tr>
+     {% for entry in readings %}
+        <tr><td>{{ entry.id }}</td>
+        <td>{{ entry.device }}</td>
+        <td>{{ entry.message }}</td>
+        <td>{{ entry.currentdate }}</td>
+        <td>{{ entry.currentime }}</td>
+        <td>{{ entry.bed }}</td></tr>
+     {% endfor %}
+   </table>
+   </div>
+     </section>
+  </li>
+  <li><a>Device Mapping</a>
+    <section>
+<div id="form2">
+
+                <form action="{{ url_for('map') }}" method="post">
+				<div id="mailbox1">
+					<input placeholder="Device No" type="number" name="device" style="width:270px; height:42px; border: solid 1px #c2c4c6; font-size:16px; padding-left:8px;" value="{{
+          request.form.device }}" />
+
+				</div>
+                <div id="mailbox1">
+					<input placeholder="Bed No" type="number" name="bed" style="width:270px; height:42px; border: solid 1px #c2c4c6; font-size:16px; padding-left:8px;" value="{{
+          request.form.bed }}"/>
+				</div>
+				<div>
+				   <input class="btn btn-default" name="submit" type="submit" id="button2" value="Connect" />
+                     <input class="btn btn-default" name="submit" type="submit" id="button2" value="Update" />
+				</div>
+                    </form>
+
+    <a href="/show" > See Map data</a>
+</form>
+</div>
+    </section>
+  </li>
+  <li><a>Report</a>
+    <section>
+         <img class="my_image" src="/static/under_construction.png" >
+    </section>
+  </li>
+  <li><a>ADD USER</a>
+    <section>
+      <form class="form-style-9" action="{{ url_for('addUser') }}" id="form" method="post" name="form">
+<ul>
+<li>
+    <input type="text" id="name" name="name" required class="field-style field-full align-none" style="width:370px; height:42px;" placeholder="Username" value="{{
+          request.form.name }}"/><br><br>
+    <input type="email" id="email" name="email" required class="field-style field-full align-none" style="width:370px; height:42px;" placeholder="Email" value="{{
+          request.form.email}}"/><br><br>
+     <input type="text" id="password" name="password" required class="field-style field-full align-none" style="width:370px; height:42px;" placeholder="Password" value="{{
+          request.form.password}}"/><br>
+</li>
+<li>
+    <div class="form-group">
+      <select class="form-control" id="sel1" name="user_type" required style="width:370px; height:42px;" >
+		  <option value="" disabled selected>Select your option</option>
+        <option value="ADMIN">ADMIN</option>
+        <option value="NORMAL">NORMAL</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <select class="form-control" id="sel1" name="dep" required style="width:370px; height:42px;" >
+          <option value="" disabled selected>Select your option</option>
+        <option value="ICU">ICU</option>
+        <option value="CCU">CCU</option>
+      </select>
+    </div>
+</li>
+
+<li>
+<input type="submit" value="Add User" />
+</li>
+</ul>
+</form>
+    </section>
+  </li>
+<li><a>Delete User</a>
+    <section>
+         <form class="form-style-9" action="{{ url_for('delete') }}" id="form" method="post" name="form">
+<ul>
+<li>
+    <input type="text" id="user_name" name="user_name" required class="field-style field-full align-none" style="width:370px; height:42px;" placeholder="Username" value="{{
+          request.form.user_name }}"/><br><br>
+</li>
+<li>
+<input type="submit" value="Delete User" />
+</li>
+</ul>
+</form>
+    </section>
+  </li>
+<li><a>Update User</a>
+    <section>
+         <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus dui urna, mollis vel suscipit in, pharetra at ligula. Pellentesque a est vel est fermentum pellentesque sed sit amet dolor. Nunc in dapibus nibh. Aliquam erat volutpat. Phasellus vel dui sed nibh iaculis convallis id sit amet urna. Proin nec tellus quis justo consequat accumsan. Vivamus turpis enim, auctor eget placerat eget, aliquam ut sapien.</p>
+    </section>
+  </li>
+  
+<li><a>Log View</a>
+    <section>
+    <table class="table table-hover">
+     <tr>
+     <th>Username</th>
+     <th>Login Time</th>
+     <th>Logout Time</th></tr>
+     {% for log in logs %}
+         <tr>
+        <td>{{ log.uname }}</td>
+        <td>{{ log.entry_time }}</td>
+        <td>{{ log.out_time }}</td>
+         </tr>
+     {% endfor %}
+   </table>
+    </section>
+</li>  
+
+</ul>
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="/static/jquery.bbq.js"></script>
+<script src="/static/jquery.atAccordionOrTabs.js"></script>
+<script type="text/javascript">
+$('.demo').accordionortabs();
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>
+{% endblock %}
+
