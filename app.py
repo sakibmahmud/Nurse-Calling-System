@@ -44,8 +44,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("icu")
     client.subscribe("ccu")
 
-# The callback for when a PUBLISH message is received from the ESP8266.
-#dividing the data according to their topic
+#dividing the data according to their topic in the method
 #this method can be used to print the message
 def on_message(client, userdata, message):
     a=time.strftime("%I:%M:%S")
@@ -86,7 +85,6 @@ mqttc.loop_start()
 #login part
 #it will come after hitting base url
 #contains two table-log and log_archive
-
 @app.route('/',methods=['GET', 'POST'])
 def login():
     error = None
@@ -217,9 +215,7 @@ def delete():
 #just for testing
 @app.route('/record') 
 @login_required
-def sakib():
-   # connects to SQLite database. File is named "sensordata.db" without the quotes
-   # WARNING: your database file should be in the same directory of the app.py file or have the correct path
+def data_record():
    conn=sqlite3.connect('ncs.db')
    conn.row_factory = dict_factory
    c=conn.cursor()
