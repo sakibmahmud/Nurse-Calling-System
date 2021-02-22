@@ -10,9 +10,8 @@ import time
 import smtplib
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'sakib!'
+app.config['SECRET_KEY'] = 'IDDL'
 socketio = SocketIO(app)
-
 
 
 def login_required(f):
@@ -27,96 +26,61 @@ def login_required(f):
     return wrap
 
 	
-	
-	
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
 
+   
+
 # The callback for when the client receives a CONNACK response from the server.
+# a mqtt client is any device that runs mqtt libraries
+#this function will execute after the device connects to the server
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code " + str(rc))
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
     client.subscribe("icu")
     client.subscribe("ccu")
 
 # The callback for when a PUBLISH message is received from the ESP8266.
 #dividing the data according to their topic
+#this method can be used to print the message
 def on_message(client, userdata, message):
     a=time.strftime("%I:%M:%S")
     x = yaml.load(message.payload)
     conn=sqlite3.connect('ncs.db')
     c=conn.cursor()
-    c.execute('SELECT * FROM map WHERE device=(?)',(x['device'],))
-    bed_no=c.fetchall()
-    x.update({'bed':bed_no[0][2]})
-    admin_data=[x]
+    #saving the message into database
     c.execute("INSERT INTO ncsreadings(device,message,currentdate,currentime,bed) VALUES(?,?,date('now'),?,?)",(x['device'], x['message'],a,x['bed']))
     conn.commit()
     conn.close()
+    admin_data=[x]
+    #emitting all data to admin
     socketio.emit('admin', admin_data) 
+    #emitting icu data to icu users
     if message.topic == "icu":
         print("NCS table update")
-        #print(message.payload.json())
-        #print(dhtreadings_json['temperature'])
-        #print(dhtreadings_json['humidity'])
         y=yaml.load(message.payload)
-	data=[y]
-	print(data)
-        socketio.emit('message',data)
-#sakib
-	print(y)
-		#
-        #dhtreadings_json = json.loads(y)
-	a=time.strftime("%I:%M:%S")
-	print(y['device'])		
-
-        # connects to SQLite database. File is named "sensordata.db" without the quotes
-        # WARNING: your database file should be in the same directory of the app.py file or have the correct path
-        conn=sqlite3.connect('ncs.db')
-        c=conn.cursor()
-
-        c.execute("INSERT INTO ncsreadings(device,message,currentdate,currentime,bed) VALUES(?,?,date('now'),?,?)",(y['device'], y['message'],a,y['bed']))
-
-        conn.commit()
-        conn.close()		
+	icu_data=[y]
+        socketio.emit('message',icu_data)
+#ttt
+    #emitting ccu data to ccu user    	
     if message.topic == "ccu":
         print("NCS table update")
-        #print(message.payload.json())
-        #print(dhtreadings_json['temperature'])
-        #print(dhtreadings_json['humidity'])
-        #z=yaml.load(message.payload)
-	data1=[x]
-	print(data1)
-        socketio.emit('message1',data1)
-#sakib
-	print(x)
-		#
-        #dhtreadings_json = json.loads(y)
-	#a=time.strftime("%I:%M:%S")
-	print(x['device'])		
-
-        # connects to SQLite database. File is named "sensordata.db" without the quotes
-        # WARNING: your database file should be in the same directory of the app.py file or have the correct path
-        #conn=sqlite3.connect('ncs.db')
-        #c=conn.cursor()
-
-        #c.execute("INSERT INTO ncsreadings(device,message,currentdate,currentime,bed) VALUES(?,?,date('now'),?,?)",(x['device'], x['message'],a,x['bed']))
-
-        #conn.commit()
-        #conn.close()
+	ccu_data=[x]
+        socketio.emit('message1',ccu_data)
 
 
+#creating instance of client class
 mqttc=mqtt.Client()
 mqttc.on_connect = on_connect
 mqttc.on_message = on_message
+#before publishing message or subscribing to topics, need to connect to the server
 mqttc.connect("localhost",1883,60)
 mqttc.loop_start()
+@socketio.on('connect') 
 
-@socketio.on('connect')
+
 #login part
 #it will come after hitting base url
 #contains two table-log and log_archive
@@ -133,17 +97,10 @@ def login():
         query=cur.execute('SELECT * FROM log WHERE username=(?) AND password=(?)',(a,b))
         results=query.fetchall()
 
-
-
-
-        #result = cur.execute('INSERT INTO log (username,password) VALUES(?,?)', (request.form['username'], request.form['password']))
-        #con.commit()
-        #if request.form['username'] != results[0][1] or request.form['password'] != results[0][2] :
         if len(results)==0:
             error = 'Invalid Credentials. Please try again.'
         else:
             session['logged_in']=True
-            print('sakib')
             q=cur.execute('INSERT INTO log_archive (uname,pword,entry_time) VALUES(?,?,current_timestamp)',(a,b))
             con.commit()
             logout_id=cur.execute('SELECT max(id) FROM log_archive WHERE uname=(?) AND pword=(?)',(a,b))
@@ -155,10 +112,6 @@ def login():
             session['id']=id
             query_type=cur.execute('SELECT user_Type,department FROM log WHERE username=(?) AND password=(?)',(a,b))
             type=cur.fetchall()
-            print(type[0][0])
-            print(type[0][1])
-            #con = sqlite3.connect("ncs.db")
-            #cur=con.cursor()
             login_time = cur.execute('UPDATE log SET login_time=current_timestamp WHERE username=(?) AND password=(?)',(a,b))
             con.commit()
             if(type[0][0]=="ADMIN"):
@@ -172,15 +125,9 @@ def login():
 
    
 
-#@app.route("/index")
-#def index():
-#    return render_template('realtime.html',async_mode=socketio.async_mode)	
-
-
-
-
 #admin page
 #it will come up if an admin logs in
+#admin  can also see the log archive
 @app.route('/admin_home')
 @login_required
 def admin_home():
@@ -218,18 +165,16 @@ def addUser():
     error = None
     if request.method == 'POST':
         u = request.form['name']
-        print(u)
         p = request.form['password']
         email=request.form['email']
-        print(email)
         usertype=request.form['user_type']
         department=request.form['dep']
         con1 = sqlite3.connect("ncs.db")
         cur1 = con1.cursor()
         add_user=cur1.execute('INSERT INTO log (username,password,user_type,department) VALUES(?,?,?,?)',(u,p,usertype,department))
         con1.commit()
-        gmail_user ="sakibm2510@gmail.com"
-        gmail_pwd = "Sakib1004015"
+        gmail_user ="demo_user@gmail.com"
+        gmail_pwd = "123456789"
         FROM = gmail_user
         TO = email
         SUBJECT = "Username and Password"
@@ -240,15 +185,17 @@ def addUser():
             server = smtplib.SMTP("smtp.gmail.com", 587)
             server.ehlo()
             server.starttls()
-            server.login("sakibm2510@gmail.com", "Sakib1004015")
+            server.login("demo@gmail.com", "123456789")
             #msg = "Your Username is: "+u+ "And Password is: "+p
-            server.sendmail("sakibm2510@gmail.com",email, message)
+            server.sendmail("demo@gmail.com",email, message)
             server.close()
             print('successfully sent the mail')
         except:
             print("failed to send mail")
 
     return ('', 204)	
+
+
 #admin can delete user from here	
 @app.route('/deleteUser',methods=['GET', 'POST'])
 def delete():
@@ -281,6 +228,7 @@ def sakib():
 	
 #for mapping portion
 #mapping is between device against bed and floor	
+#mapping can be done by the admin user through an interface available after logging in
 @app.route('/map',methods=['GET', 'POST'])
 def map():
     if request.method=='POST':
@@ -298,6 +246,7 @@ def map():
           con.commit()
     return 'Data OK'
 	
+#function to show the mapping date between a device and a bed
 @app.route('/show')
 def show():
     con = sqlite3.connect("ncs.db")
@@ -305,7 +254,7 @@ def show():
     query = cur.execute('SELECT * FROM map')
     return render_template('show.html',items=query.fetchall())
 	
-#logout part	
+#logout part of the application
 @app.route('/logout')
 @login_required
 def logout():
@@ -322,13 +271,6 @@ def logout():
     session.pop('logged_in',None)
     return redirect(url_for('login'))		
 	
-
-	
-
-	
-
-	 
-
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=8080,threaded=True)
